@@ -1,3 +1,6 @@
+import 'package:digifarm/activity_log/screen/activity_screen.dart';
+import 'package:digifarm/flock/screen/flock_screen.dart';
+import 'package:digifarm/livestock/screen/livestock_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {
@@ -14,9 +17,29 @@ class MenuButton extends StatelessWidget {
   final String title;
   final String description;
 
+  void _onSelectMenu(BuildContext context) {
+    if (title == 'Livestock Data') {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => LivestockScreen()));
+    }
+    if (title == 'Activity Log') {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => ActivityScreen()));
+    }
+    if (title == 'Flock Data') {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => FlockScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        _onSelectMenu(context);
+      },
+      
       child: Container(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         decoration: BoxDecoration(

@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 10),
                   ProfileInput(
-                    controller: _nameController,
+                    controller: _emailController,
                     read: true,
                     label: 'email',
                     hint: 'Masukkan alamat email anda',

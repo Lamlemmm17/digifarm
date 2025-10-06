@@ -1,9 +1,9 @@
 import 'package:digifarm/auth/screen/login_screen.dart';
-// import 'package:digifarm/home/screen/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
           ),
           bodyLarge: TextStyle(
             fontFamily: 'NunitoSans',
+            height: 1.32,
             fontSize: 12,
             color: Color.fromARGB(215, 6, 4, 4),
           ),
