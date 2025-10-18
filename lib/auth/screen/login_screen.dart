@@ -1,30 +1,56 @@
+
+import 'package:digifarm/auth/provider/login_provider.dart';
 import 'package:digifarm/auth/widgets/login_button.dart';
 import 'package:digifarm/auth/widgets/login_input.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  String _email = '';
+  String _password = '';
 
   final _formKey = GlobalKey<FormState>();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  void _submit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    _formKey.currentState!.save();
+
+    try {
+      await ref.read(loginProvider.notifier).signIn(_email, _password);
+    } on FirebaseAuthException catch (error) {
+      if (mounted) {
+      String message = '${error.code}, Email atau Password salah! ';
+
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: 
+        Text('Terjadi Kesalahan: $error')));
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
@@ -50,28 +76,51 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 40),
               Form(
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     LoginInput(
-                      controller: _emailController,
+                      initValue: _email,
                       keyboard: TextInputType.emailAddress,
                       label: 'Email Address',
+                      validator: (value) {
+                        if (value == null ||
+                            !value.contains('@') ||
+                            value.trim().isEmpty) {
+                          return 'Alamat email tidak valid.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _email = value!.trim();
+                      },
                     ),
                     LoginInput(
-                      controller: _passwordController,
+                      initValue: _password,
                       label: 'Password',
                       keyboard: TextInputType.visiblePassword,
                       obscure: true,
+                      validator: (value) {
+                        if (value == null || value.trim().length < 6) {
+                          return 'Minimal 6 karakter';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _password = value!.trim();
+                      },
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 220),
-              LoginButton(),
+              LoginButton(
+                onTap: _submit,
+                isLoading: ref.watch(loginProvider).isLoading,
+              ),
             ],
           ),
         ),

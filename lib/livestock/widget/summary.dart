@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:digifarm/livestock/provider/lambs_provider.dart';
+import 'package:digifarm/livestock/provider/livestock_fetch_provider.dart';
 
 class Summary extends ConsumerWidget {
   const Summary({super.key, required this.index});

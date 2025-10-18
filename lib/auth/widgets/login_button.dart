@@ -1,15 +1,15 @@
-import 'package:digifarm/home/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({super.key});
+  const LoginButton({super.key, required this.isLoading, required this.onTap});
+
+  final bool isLoading;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (Route<dynamic> route) => false);
-      },
+      onPressed: onTap,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -18,7 +18,9 @@ class LoginButton extends StatelessWidget {
         minimumSize: Size(320, 60),
         elevation: 5
       ),
-      child: Text(
+      child: 
+      !isLoading ? 
+      Text(
         'LOGIN',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
           fontFamily: 'OpenSans',
@@ -26,7 +28,8 @@ class LoginButton extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-      ),
+      ) :
+      SizedBox(height: 30, width: 30, child: CircularProgressIndicator())
     );
   }
 }

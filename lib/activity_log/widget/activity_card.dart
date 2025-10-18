@@ -1,15 +1,16 @@
+import 'package:digifarm/activity_log/model/activity_log.dart';
 import 'package:flutter/material.dart';
-import 'package:digifarm/livestock/models/lamb.dart';
 
-class LambItem extends StatelessWidget {
-  const LambItem({super.key, required this.lamb});
-
-  final Lamb lamb;
+class ActivityCard extends StatelessWidget {
+  const ActivityCard({super.key, required this.activity, required this.onShowSheet});
+  
+  final ActivityLog activity; 
+  final void Function(BuildContext, ActivityLog) onShowSheet;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {onShowSheet(context, activity);},
       child: Container(
         padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
@@ -32,10 +33,10 @@ class LambItem extends StatelessWidget {
               height: 55,
               width: 55,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 203, 231, 184),
+                color: const Color.fromARGB(255, 247, 183, 178),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Image.asset('assets/images/lamb.png'),
+              child: Image.asset('assets/images/notes.png'),
             ),
             SizedBox(width: 10),
             Expanded(
@@ -44,13 +45,14 @@ class LambItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lamb.id,
+                    activity.judul,
                     textAlign: TextAlign.start,
                     maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    '${lamb.displayGender}, ${lamb.umur}, ${lamb.displayKesehatan}',
+                    '${activity.displayTipeKegiatan}, ${activity.displayWaktu}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(

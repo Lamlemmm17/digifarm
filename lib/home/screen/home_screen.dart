@@ -22,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [const ProfileScreen(), const MenuScreen()],
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: 70 + bottomPadding,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -56,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             topRight: Radius.circular(10),
           ),
           child: BottomNavigationBar(
+            
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,

@@ -1,8 +1,19 @@
-import 'package:digifarm/auth/screen/login_screen.dart';
+import 'package:digifarm/auth/widgets/auth_gate.dart';
+
+import 'package:digifarm/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart'; 
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); 
+
+  await Firebase.initializeApp(
+    options:  DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await initializeDateFormatting('id', null); 
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -13,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Digifarm',
       theme: ThemeData(
         textTheme: const TextTheme(
           titleLarge: TextStyle(
@@ -41,7 +52,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginScreen(),
+      home: const AuthGate(),
     );
   }
 }

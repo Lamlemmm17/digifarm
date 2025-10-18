@@ -4,16 +4,20 @@ class LoginInput extends StatelessWidget {
 
   const LoginInput({
     super.key,
-    required this.controller,
+    required this.initValue,
     this.keyboard = TextInputType.text,
     required this.label,
-    this.obscure = false
+    this.obscure = false,
+    this.validator,
+    required this.onSaved,
   });
 
-  final TextEditingController controller;
+  final String initValue;
   final TextInputType keyboard;
   final String label;
   final bool obscure;
+  final String? Function(String?)? validator;
+  final void Function(String?) onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +25,11 @@ class LoginInput extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         style: Theme.of(context).textTheme.bodyMedium,
+        validator: validator,
         keyboardType: keyboard,
         obscureText: obscure,
-        controller: controller,
+        initialValue: initValue,
+        onSaved: onSaved,
         decoration: InputDecoration(
           floatingLabelStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontSize: 14,

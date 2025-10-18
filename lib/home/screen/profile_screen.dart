@@ -1,14 +1,18 @@
+import 'package:digifarm/auth/provider/login_provider.dart';
 import 'package:digifarm/home/widget/profile_input.dart';
-import 'package:flutter/material.dart';
+import 'package:digifarm/widgets/custom_button.dart';
 
-class ProfileScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final _nameController = TextEditingController();
   final _locationController = TextEditingController();
   final _emailController = TextEditingController();
@@ -27,7 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return SingleChildScrollView(
@@ -89,6 +92,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                 ],
+              ),
+            ),
+            SizedBox(height: 50),
+            SafeArea(
+              child: Center(
+                child: CustomButton(
+                  color: const Color.fromARGB(255, 242, 112, 98),
+                  onTap: ref.read(loginProvider.notifier).signOut,
+                  isLoading: false,
+                  text: 'LOG OUT',
+                ),
               ),
             ),
           ],

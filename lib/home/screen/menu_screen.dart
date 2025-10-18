@@ -49,7 +49,7 @@ class MenuScreen extends StatelessWidget {
                   SizedBox(height: 15),
                   MenuButton(
                     iconBgColor: const Color.fromARGB(255, 167, 213, 212),
-                    menuIcon: Image.asset('assets/images/notes.png'),
+                    menuIcon: Image.asset('assets/images/fence.png'),
                     title: 'Flock Data',
                     description:
                         'Pada menu ini anda dapat mengelola data kandang anda!',
